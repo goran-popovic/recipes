@@ -12,8 +12,8 @@ import App from './App.vue';
 
 Vue.use(VueMoment);
 
-import store from './store';
 import router from './router'
+import store from './store';
 
 /**
  * The following block of code may be used to automatically register your

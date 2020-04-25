@@ -16,6 +16,10 @@
 
 <script>
     export default {
-
+        created: function () {
+            console.log(this.$store.getters.isLoggedIn);
+            console.log(this.$store.state.isLoggedIn);
+            console.log(this.$store);
+        }
     }
 </script>

@@ -70,14 +70,8 @@
                         })
                             .then(response => {
                                 console.log(response);
-                                axios.get('/api/user')
-                                    .then(response => {
-                                        console.log(response);
-                                    })
-                                    .catch(error => {
-                                        console.log(error);
-                                    });
-
+                                this.$store.commit('isLoggedIn', true);
+                                this.$store.dispatch('getUserData');
                                 this.$router.push('settings');
                             })
                             .catch(error => {

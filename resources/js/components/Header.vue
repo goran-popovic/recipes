@@ -17,25 +17,29 @@
                 <!-- Right Side Of Navbar -->
                 <ul class="navbar-nav ml-auto">
                     <!-- Authentication Links -->
-                    <li class="nav-item">
-                        <router-link class="nav-link" to="/login">Login</router-link>
-                    </li>
-                    <li class="nav-item">
-                        <router-link class="nav-link" to="/register">Register</router-link>
-                    </li>
-                    <li class="nav-item">
-                        <a @click.prevent="logout" href="#" class="nav-link">Logout</a>
-                    </li>
+                    <template v-if="!isLoggedIn">
+                        <li class="nav-item">
+                            <router-link class="nav-link" to="/login">Login</router-link>
+                        </li>
+                        <li class="nav-item">
+                            <router-link class="nav-link" to="/register">Register</router-link>
+                        </li>
+                    </template>
+                    <template v-else>
+                        <li class="nav-item">
+                            <a @click.prevent="logout" href="#" class="nav-link">Logout</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {{ user.name }}
+                                <span class="caret"></span>
+                            </a>
 
-                    <li class="nav-item dropdown">
-                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                            Auth User Name <span class="caret"></span>
-                        </a>
-
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="#">Logout</a>
-                        </div>
-                    </li>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="#">Logout</a>
+                            </div>
+                        </li>
+                    </template>
                 </ul>
             </div>
         </div>
@@ -44,24 +48,22 @@
 
 <script>
     export default {
+        computed: {
+            isLoggedIn () {
+                return this.$store.getters.isLoggedIn;
+            },
+            user () {
+                return this.$store.getters.userData;
+            }
+        },
         methods: {
             logout() {
-                axios.post('/logout')
-                    .then(response => {
-                        console.log(response);
-                        this.$router.push('/');
-                        axios.get('/api/user')
-                            .then(response => {
-                                console.log(response);
-                            })
-                            .catch(error => {
-                                console.log(error);
-                            });
-                    })
-                    .catch(error => {
-                        console.log(error);
-                    });
+                this.$store.dispatch('logout');
             }
+        },
+        created() {
+            console.log('halo');
+            console.log(this.$store.getters.userData);
         }
     }
 </script>
