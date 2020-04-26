@@ -48231,7 +48231,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     getUserData: function getUserData(context) {
       axios.get('/api/user').then(function (response) {
         console.log(response);
-        context.commit('userData', response.data);
+        context.commit('userData', response.data.data);
       })["catch"](function (error) {
         console.log(error);
       });

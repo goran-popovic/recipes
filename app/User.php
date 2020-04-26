@@ -36,4 +36,13 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Get favorite recipes of the user.
+     */
+    public function favorites()
+    {
+        return $this->belongsToMany(Recipe::class, 'favorites', 'user_id', 'recipe_id')
+            ->withTimeStamps();
+    }
 }

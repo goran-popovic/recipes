@@ -117,7 +117,7 @@ export default new Vuex.Store({
             axios.get('/api/user')
                 .then(response => {
                     console.log(response);
-                    context.commit('userData', response.data);
+                    context.commit('userData', response.data.data);
                 })
                 .catch(error => {
                     console.log(error);
