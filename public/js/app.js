@@ -2180,7 +2180,7 @@ __webpack_require__.r(__webpack_exports__);
     login: function login() {
       var _this = this;
 
-      axios.get('/sanctum/csrf-cookie').then(function (response) {
+      this.$store.dispatch('authenticate').then(function (response) {
         console.log(response);
         axios.post('/login', {
           email: _this.email,
@@ -2190,7 +2190,7 @@ __webpack_require__.r(__webpack_exports__);
 
           _this.$store.commit('isLoggedIn', true);
 
-          _this.$store.dispatch('getUserData');
+          _this.$store.commit('userData', response.data);
 
           _this.$router.push('settings');
         })["catch"](function (error) {
@@ -2295,7 +2295,7 @@ __webpack_require__.r(__webpack_exports__);
     register: function register() {
       var _this = this;
 
-      axios.get('/sanctum/csrf-cookie').then(function (response) {
+      this.$store.dispatch('authenticate').then(function (response) {
         console.log(response);
         axios.post('/register', {
           name: _this.name,
@@ -2307,7 +2307,7 @@ __webpack_require__.r(__webpack_exports__);
 
           _this.$store.commit('isLoggedIn', true);
 
-          _this.$store.dispatch('getUserData');
+          _this.$store.commit('userData', response.data);
 
           _this.$router.push('settings');
         })["catch"](function (error) {
@@ -48228,13 +48228,8 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
         console.log(error);
       });
     },
-    getUserData: function getUserData(context) {
-      axios.get('/api/user').then(function (response) {
-        console.log(response);
-        context.commit('userData', response.data.data);
-      })["catch"](function (error) {
-        console.log(error);
-      });
+    authenticate: function authenticate() {
+      return axios.get('/sanctum/csrf-cookie');
     }
   },
   modules: {},

@@ -78,10 +78,9 @@
         },
         methods: {
             register() {
-                axios.get('/sanctum/csrf-cookie')
+                this.$store.dispatch('authenticate')
                     .then(response => {
                         console.log(response);
-
                         axios.post('/register', {
                             name: this.name,
                             email: this.email,
@@ -91,7 +90,7 @@
                             .then(response => {
                                 console.log(response);
                                 this.$store.commit('isLoggedIn', true);
-                                this.$store.dispatch('getUserData');
+                                this.$store.commit('userData', response.data);
                                 this.$router.push('settings');
                             })
                             .catch(error => {

@@ -113,15 +113,8 @@ export default new Vuex.Store({
                     console.log(error);
                 });
         },
-        getUserData (context) {
-            axios.get('/api/user')
-                .then(response => {
-                    console.log(response);
-                    context.commit('userData', response.data.data);
-                })
-                .catch(error => {
-                    console.log(error);
-                });
+        authenticate () {
+            return axios.get('/sanctum/csrf-cookie');
         }
     },
     modules: {

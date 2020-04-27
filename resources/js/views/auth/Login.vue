@@ -60,10 +60,9 @@
         },
         methods: {
             login() {
-                axios.get('/sanctum/csrf-cookie')
+                this.$store.dispatch('authenticate')
                     .then(response => {
                         console.log(response);
-
                         axios.post('/login', {
                             email: this.email,
                             password: this.password
@@ -71,7 +70,7 @@
                             .then(response => {
                                 console.log(response);
                                 this.$store.commit('isLoggedIn', true);
-                                this.$store.dispatch('getUserData');
+                                this.$store.commit('userData', response.data);
                                 this.$router.push('settings');
                             })
                             .catch(error => {

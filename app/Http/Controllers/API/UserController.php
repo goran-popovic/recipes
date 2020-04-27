@@ -42,21 +42,6 @@ class UserController extends Controller
     }
 
     /**
-     * Display the currently logged user.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function currentUser(Request $request)
-    {
-        // Get user
-        $user = User::findOrFail($request->user()->id);
-
-        // Return single user as a resource
-        return new UserResource($user);
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
