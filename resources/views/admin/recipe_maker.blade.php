@@ -16,8 +16,8 @@
 
 @section('content')
     <div id="recipes-admin" class="page-content browse container-fluid">
-        <test></test>
-{{--        @include('voyager::alerts')--}}
+        @include('voyager::alerts')
+        <recipes></recipes>
 
 {{--        <div class="container">--}}
 {{--            <div class="row">--}}
