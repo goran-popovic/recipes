@@ -6,13 +6,8 @@
 </template>
 
 <script>
-    import Header from './components/Header';
-
     export default {
         name: "app",
-        components: {
-            Header
-        },
         created: function () {
             console.log(this.$store.getters.isLoggedIn);
             console.log(this.$store.state.isLoggedIn);

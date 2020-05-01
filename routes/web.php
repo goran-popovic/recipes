@@ -15,4 +15,14 @@ use Illuminate\Support\Facades\Route;
 Route::post('/login', 'Auth\LoginController@login');
 Route::post('/register', 'Auth\RegisterController@register');
 Route::post('/logout', 'Auth\LoginController@logout');
+
+Route::group(['prefix' => config('app.admin_route')], function () {
+    Route::group(['middleware' => 'admin_auth'], function() {
+        // Main Admin routes
+        Route::get('/recipe-maker', 'Admin\AdminController@recipeMaker')->name('voyager.recipe.maker');
+    });
+
+    Voyager::routes();
+});
+
 Route::view('/{any}', 'app')->where('any', '.*');
