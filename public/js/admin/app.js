@@ -1940,18 +1940,59 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: {
+    categories: Array,
+    adminRoute: String
+  },
+  data: function data() {
+    return {
+      recipe: {
+        id: '',
+        title: '',
+        description: '',
+        ingredients: '',
+        categoryId: null,
+        images: []
+      }
+    };
+  },
   created: function created() {
-    console.log('gelo');
+    console.log(this.categories);
+    console.log(this.adminRoute);
+  },
+  methods: {
+    handleFileUpload: function handleFileUpload() {
+      this.recipe.images = this.$refs.images.files;
+      console.log(this.recipe.images);
+    },
+    addRecipe: function addRecipe() {
+      var _this = this;
+
+      var formData = new FormData();
+      formData.append('title', this.recipe.title);
+      formData.append('description', this.recipe.description);
+      formData.append('ingredients', this.recipe.ingredients);
+      formData.append('category_id', this.recipe.categoryId);
+
+      for (var i = 0; i < this.recipe.images.length; i++) {
+        var image = this.recipe.images[i];
+        formData.append('images[' + i + ']', image);
+      }
+
+      axios.post('recipes/store', formData).then(function (response) {
+        console.log(response);
+        _this.recipe.title = '';
+        _this.recipe.description = '';
+        _this.recipe.ingredients = '';
+        _this.recipe.images = '';
+        _this.recipe.categoryId = '';
+        _this.$refs.images.value = '';
+        toastr.success('Recipe Added');
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    }
   }
 });
 
@@ -19565,15 +19606,38 @@ var render = function() {
           "form",
           {
             staticClass: "mb",
-            attrs: { id: "recipe-form", enctype: "multipart/form-data" }
+            attrs: { id: "recipe-form", enctype: "multipart/form-data" },
+            on: {
+              submit: function($event) {
+                $event.preventDefault()
+                return _vm.addRecipe($event)
+              }
+            }
           },
           [
             _c("div", { staticClass: "form-group" }, [
               _c("label", { staticClass: "mb-1" }, [_vm._v("Recipe title")]),
               _vm._v(" "),
               _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.recipe.title,
+                    expression: "recipe.title"
+                  }
+                ],
                 staticClass: "form-control mb-2",
-                attrs: { type: "text" }
+                attrs: { type: "text" },
+                domProps: { value: _vm.recipe.title },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.recipe, "title", $event.target.value)
+                  }
+                }
               }),
               _vm._v(" "),
               _c("label", { staticClass: "mb-1" }, [
@@ -19581,30 +19645,110 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("textarea", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.recipe.description,
+                    expression: "recipe.description"
+                  }
+                ],
                 staticClass: "form-control mb-2",
-                attrs: { rows: "6", cols: "50" }
+                attrs: { rows: "6", cols: "50" },
+                domProps: { value: _vm.recipe.description },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.recipe, "description", $event.target.value)
+                  }
+                }
               }),
               _vm._v(" "),
               _c("label", { staticClass: "mb-1" }, [_vm._v("Add ingredients")]),
               _vm._v(" "),
               _c("textarea", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.recipe.ingredients,
+                    expression: "recipe.ingredients"
+                  }
+                ],
                 staticClass: "form-control mb-2",
-                attrs: { rows: "6", cols: "50" }
+                attrs: { rows: "6", cols: "50" },
+                domProps: { value: _vm.recipe.ingredients },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.recipe, "ingredients", $event.target.value)
+                  }
+                }
               }),
               _vm._v(" "),
               _c("label", { staticClass: "mb-1" }, [
                 _vm._v("Choose a category")
               ]),
               _vm._v(" "),
-              _c("select", { staticClass: "form-control mb-2" }),
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.recipe.categoryId,
+                      expression: "recipe.categoryId"
+                    }
+                  ],
+                  staticClass: "form-control mb-2",
+                  on: {
+                    change: function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.$set(
+                        _vm.recipe,
+                        "categoryId",
+                        $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      )
+                    }
+                  }
+                },
+                _vm._l(_vm.categories, function(category) {
+                  return _c("option", { domProps: { value: category.id } }, [
+                    _vm._v(
+                      "\n                            " +
+                        _vm._s(category.name) +
+                        "\n                        "
+                    )
+                  ])
+                }),
+                0
+              ),
               _vm._v(" "),
               _c("label", { staticClass: "mb-1" }, [_vm._v("Upload Images")]),
               _vm._v(" "),
               _c("input", {
-                ref: "cover_image",
+                ref: "images",
                 staticClass: "mb-2",
-                attrs: { type: "file", id: "cover_image" },
-                on: { change: function($event) {} }
+                attrs: { type: "file", id: "images", multiple: "multiple" },
+                on: {
+                  change: function($event) {
+                    return _vm.handleFileUpload()
+                  }
+                }
               }),
               _vm._v(" "),
               _c("input", {

@@ -29,7 +29,7 @@ run `npm run watch` command to monitor and automatically recompile your componen
 * Register a new account on http://127.0.0.1:8000
 * Install admin panel and assign admin privileges to the user
 
-```sh
-$ php artisan voyager:install
-$ php artisan voyager:admin your@email.com
+```
+php artisan voyager:install
+php artisan voyager:admin your@email.com
 ```

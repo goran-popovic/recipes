@@ -17,7 +17,10 @@
 @section('content')
     <div id="recipes-admin" class="page-content browse container-fluid">
         @include('voyager::alerts')
-        <recipes></recipes>
+{{--        @php--}}
+{{--        dd($categories);--}}
+{{--        @endphp--}}
+        <recipes :categories="{{ $categories }}" admin-route="{{ $adminRoute }}"></recipes>
 
 {{--        <div class="container">--}}
 {{--            <div class="row">--}}

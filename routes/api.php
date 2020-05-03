@@ -18,5 +18,6 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
     Route::get('/user', 'Api\UserController@currentUser');
     Route::apiResources([
         'users' => 'Api\UserController',
+        'recipes' => 'Api\RecipeController'
     ]);
 });
