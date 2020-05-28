@@ -6,8 +6,13 @@
                     <div class="card-header">{{ recipe.title }}</div>
 
                     <div class="card-body">
+                        <template class="card mb-5" v-for="image in recipe.images">
+                            <img :src="'/storage/' + image.image_path" alt="recipe image" style="width: 100px">
+                        </template>
                         <div v-html="recipe.description"></div>
                         <div v-html="recipe.ingredients"></div>
+                        <p class="card-text">{{ recipe.created_at | moment("D.M.YYYY") }}</p>
+                        <p class="card-text">{{ recipe.category.name }}</p>
                     </div>
                 </div>
             </div>

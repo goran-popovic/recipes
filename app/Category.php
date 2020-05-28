@@ -19,4 +19,12 @@ class Category extends Model
     protected $fillable = [
         'name'
     ];
+
+    /**
+     * Get the ads that belong to a specific sex.
+     */
+    public function recipes()
+    {
+        return $this->hasMany('App\Recipe');
+    }
 }

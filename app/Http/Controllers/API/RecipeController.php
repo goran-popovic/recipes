@@ -20,10 +20,10 @@ class RecipeController extends Controller
      */
     public function index()
     {
-        // Get articles
-        $recipes = Recipe::orderBy('created_at', 'desc')->paginate(5);
+        // Get recipes
+        $recipes = Recipe::orderBy('created_at', 'desc')->with(['category', 'images'])->paginate(5);
 
-        // return collection of articles as a resource
+        // return collection of recipes as a resource
         return RecipeResource::collection($recipes);
     }
 

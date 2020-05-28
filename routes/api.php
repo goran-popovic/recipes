@@ -21,3 +21,7 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
         'recipes' => 'Api\RecipeController'
     ]);
 });
+
+Route::apiResources([
+    'recipes' => 'Api\RecipeController'
+]);

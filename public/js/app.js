@@ -2153,6 +2153,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -26444,13 +26449,42 @@ var render = function() {
               _vm._v(_vm._s(recipe.title))
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "card-body" }, [
-              _c("div", {
-                domProps: { innerHTML: _vm._s(recipe.description) }
-              }),
-              _vm._v(" "),
-              _c("div", { domProps: { innerHTML: _vm._s(recipe.ingredients) } })
-            ])
+            _c(
+              "div",
+              { staticClass: "card-body" },
+              [
+                _vm._l(recipe.images, function(image) {
+                  return [
+                    _c("img", {
+                      staticStyle: { width: "100px" },
+                      attrs: {
+                        src: "/storage/" + image.image_path,
+                        alt: "recipe image"
+                      }
+                    })
+                  ]
+                }),
+                _vm._v(" "),
+                _c("div", {
+                  domProps: { innerHTML: _vm._s(recipe.description) }
+                }),
+                _vm._v(" "),
+                _c("div", {
+                  domProps: { innerHTML: _vm._s(recipe.ingredients) }
+                }),
+                _vm._v(" "),
+                _c("p", { staticClass: "card-text" }, [
+                  _vm._v(
+                    _vm._s(_vm._f("moment")(recipe.created_at, "D.M.YYYY"))
+                  )
+                ]),
+                _vm._v(" "),
+                _c("p", { staticClass: "card-text" }, [
+                  _vm._v(_vm._s(recipe.category.name))
+                ])
+              ],
+              2
+            )
           ])
         }),
         0
