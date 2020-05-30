@@ -20,7 +20,7 @@ class RecipeController extends Controller
      */
     public function index()
     {
-        // Get recipes
+        // get recipes
         $recipes = Recipe::orderBy('created_at', 'desc')->with(['category', 'images'])->paginate(5);
 
         // return collection of recipes as a resource
@@ -93,7 +93,11 @@ class RecipeController extends Controller
      */
     public function show($id)
     {
-        //
+        // get recipe
+        $recipe = Recipe::with(['category', 'images'])->findOrFail($id);
+
+        // Return single recipe as a resource
+        return new RecipeResource($recipe);
     }
 
     /**

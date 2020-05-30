@@ -14,6 +14,14 @@ const router = new VueRouter({
             component: Home
         },
         {
+            path: '/recipes/:id',
+            name: 'recipeSingle',
+            // route level code-splitting
+            // this generates a separate chunk (recipe-single.[hash].js) for this route
+            // which is lazy-loaded when the route is visited.
+            component: () => import(/* webpackChunkName: "js/chunks/recipe-single" */ '../views/recipes/Single.vue')
+        },
+        {
             path: '/about',
             name: 'about',
             // route level code-splitting
@@ -26,7 +34,7 @@ const router = new VueRouter({
             name: 'settings',
             meta: { requiresAuth: true },
             // route level code-splitting
-            // this generates a separate chunk (about.[hash].js) for this route
+            // this generates a separate chunk (settings.[hash].js) for this route
             // which is lazy-loaded when the route is visited.
             component: () => import(/* webpackChunkName: "settings" */ '../views/Settings.vue')
         },
@@ -34,7 +42,7 @@ const router = new VueRouter({
             path: '/login',
             name: 'login',
             // route level code-splitting
-            // this generates a separate chunk (about.[hash].js) for this route
+            // this generates a separate chunk (login.[hash].js) for this route
             // which is lazy-loaded when the route is visited.
             component: () => import(/* webpackChunkName: "login" */ '../views/auth/Login.vue')
         },
@@ -42,17 +50,17 @@ const router = new VueRouter({
             path: '/register',
             name: 'register',
             // route level code-splitting
-            // this generates a separate chunk (about.[hash].js) for this route
+            // this generates a separate chunk (register.[hash].js) for this route
             // which is lazy-loaded when the route is visited.
             component: () => import(/* webpackChunkName: "register" */ '../views/auth/Register.vue')
         },
         {
             path: '*',
-            name: '404',
+            name: 'pageNotFound',
             // route level code-splitting
-            // this generates a separate chunk (about.[hash].js) for this route
+            // this generates a separate chunk (page-not-found.[hash].js) for this route
             // which is lazy-loaded when the route is visited.
-            component: () => import(/* webpackChunkName: "404" */ '../views/PageNotFound.vue')
+            component: () => import(/* webpackChunkName: "page-not-found" */ '../views/PageNotFound.vue')
         },
     ]
 });

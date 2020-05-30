@@ -2,8 +2,8 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
-                <div class="card mb-5" v-for="recipe in recipes">
-                    <div class="card-header"><router-link :to="'recipes/' + recipe.id">{{ recipe.title }}</router-link></div>
+                <div class="card mb-5">
+                    <div class="card-header">{{ recipe.title }}</div>
 
                     <div class="card-body">
                         <template class="card mb-5" v-for="image in recipe.images">
@@ -24,24 +24,27 @@
     export default {
         data() {
             return {
-                recipes: [],
+                recipe: {
+                    id: '',
+                    title: '',
+                    description: '',
+                    ingredients: '',
+                    category: {},
+                    images: [],
+                    created_at: '',
+                    updated_at: ''
+                }
             }
         },
         created: function () {
-            console.log(this.$store.getters.isLoggedIn);
-            console.log(this.$store.state.isLoggedIn);
-            console.log(this.$store);
-            this.getRecipes();
+            this.getRecipe();
         },
         methods: {
-            getRecipes() {
-                axios.get('/api/recipes')
+            getRecipe() {
+                axios.get('/api/recipes/' + this.$route.params.id)
                     .then(response => {
                         console.log(response);
-                        this.recipes = response.data.data;
-                        // this.$store.commit('isLoggedIn', true);
-                        // this.$store.commit('userData', response.data);
-                        // this.$router.push('settings');
+                        this.recipe = response.data;
                     })
                     .catch(error => {
                         console.log(error);
