@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Favorite;
 use App\RecipeImage;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\Category as CategoryResource;
@@ -24,6 +25,7 @@ class Recipe extends JsonResource
             'ingredients' => $this->ingredients,
             'category'    => new CategoryResource($this->whenLoaded('category')),
             'images'      => RecipeImageRecource::collection($this->whenLoaded('images')),
+            'favorited'   => $this->favorited(),
             'created_at'  => $this->created_at,
             'updated_at'  => $this->updated_at,
         ];

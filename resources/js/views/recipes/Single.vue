@@ -13,6 +13,12 @@
                         <div v-html="recipe.ingredients"></div>
                         <p class="card-text">{{ recipe.created_at | moment("D.M.YYYY") }}</p>
                         <p class="card-text">{{ recipe.category.name }}</p>
+                        <button class="btn btn-primary" v-if="recipe.favorited" @click.prevent="unfavorite">
+                            Unfavorite
+                        </button>
+                        <button class="btn btn-primary" v-else @click.prevent="favorite">
+                            Favorite
+                        </button>
                     </div>
                 </div>
             </div>
@@ -31,15 +37,34 @@
                     ingredients: '',
                     category: {},
                     images: [],
+                    favorited: false,
                     created_at: '',
                     updated_at: ''
-                }
+                },
             }
         },
         created: function () {
             this.getRecipe();
         },
         methods: {
+            favorite() {
+                axios.post('/api/favorites/' + this.$route.params.id)
+                    .then(response => {
+                        this.recipe.favorited = true;
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            },
+            unfavorite() {
+                axios.post('/api/unfavorites/' + this.$route.params.id)
+                    .then(response => {
+                        this.recipe.favorited = false;
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            },
             getRecipe() {
                 axios.get('/api/recipes/' + this.$route.params.id)
                     .then(response => {

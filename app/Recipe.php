@@ -44,8 +44,12 @@ class Recipe extends Model
     {
         $user = auth()->user();
 
-        return (bool) Favorite::where('user_id', $user->id)
-            ->where('recipe_id', $this->id)
-            ->first();
+        if($user) {
+            return (bool)Favorite::where('user_id', $user->id)
+                ->where('recipe_id', $this->id)
+                ->first();
+        }
+
+        return false;
     }
 }

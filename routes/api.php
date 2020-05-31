@@ -17,11 +17,12 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' => 'auth:sanctum'], function() {
     Route::get('/user', 'Api\UserController@currentUser');
     Route::apiResources([
-        'users' => 'Api\UserController',
-        'recipes' => 'Api\RecipeController'
+        'users' => 'Api\UserController'
     ]);
+    Route::get('/favorites', 'Api\FavoriteController@index')->name('favorites');
+    Route::post('/favorites/{id}', 'Api\FavoriteController@favorite');
+    Route::post('/unfavorites/{id}', 'Api\FavoriteController@unfavorite');
 });
 
-Route::apiResources([
-    'recipes' => 'Api\RecipeController'
-]);
+Route::get('/recipes', 'Api\RecipeController@index');
+Route::get('/recipes/{id}', 'Api\RecipeController@show');

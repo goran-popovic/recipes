@@ -2471,6 +2471,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2481,6 +2487,7 @@ __webpack_require__.r(__webpack_exports__);
         ingredients: '',
         category: {},
         images: [],
+        favorited: false,
         created_at: '',
         updated_at: ''
       }
@@ -2490,12 +2497,30 @@ __webpack_require__.r(__webpack_exports__);
     this.getRecipe();
   },
   methods: {
-    getRecipe: function getRecipe() {
+    favorite: function favorite() {
       var _this = this;
+
+      axios.post('/api/favorites/' + this.$route.params.id).then(function (response) {
+        _this.recipe.favorited = true;
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    unfavorite: function unfavorite() {
+      var _this2 = this;
+
+      axios.post('/api/unfavorites/' + this.$route.params.id).then(function (response) {
+        _this2.recipe.favorited = false;
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    getRecipe: function getRecipe() {
+      var _this3 = this;
 
       axios.get('/api/recipes/' + this.$route.params.id).then(function (response) {
         console.log(response);
-        _this.recipe = response.data;
+        _this3.recipe = response.data;
       })["catch"](function (error) {
         console.log(error);
       });
@@ -27164,7 +27189,43 @@ var render = function() {
               _vm._v(" "),
               _c("p", { staticClass: "card-text" }, [
                 _vm._v(_vm._s(_vm.recipe.category.name))
-              ])
+              ]),
+              _vm._v(" "),
+              _vm.recipe.favorited
+                ? _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-primary",
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          return _vm.unfavorite($event)
+                        }
+                      }
+                    },
+                    [
+                      _vm._v(
+                        "\n                        Unfavorite\n                    "
+                      )
+                    ]
+                  )
+                : _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-primary",
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          return _vm.favorite($event)
+                        }
+                      }
+                    },
+                    [
+                      _vm._v(
+                        "\n                        Favorite\n                    "
+                      )
+                    ]
+                  )
             ],
             2
           )

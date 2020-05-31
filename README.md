@@ -16,6 +16,8 @@ run `php artisan migrate`
 
 run `php artisan storage:link`
 
+run `php artisan insert:categories`
+
 run `npm install`
 
 run `php artisan serve`
