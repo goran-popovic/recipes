@@ -1932,9 +1932,6 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var _this = this;
 
-    console.log(this.$store.getters.isLoggedIn);
-    console.log(this.$store.state.isLoggedIn);
-    console.log(this.$store);
     axios.interceptors.response.use(function (response) {
       return response;
     }, function (error) {
@@ -2007,14 +2004,10 @@ __webpack_require__.r(__webpack_exports__);
       }
     };
   },
-  created: function created() {
-    console.log(this.categories);
-    console.log(this.adminRoute);
-  },
+  created: function created() {},
   methods: {
     handleFileUpload: function handleFileUpload() {
       this.recipe.images = this.$refs.images.files;
-      console.log(this.recipe.images);
     },
     addRecipe: function addRecipe() {
       var _this = this;
@@ -2031,7 +2024,6 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       axios.post('recipes/store', formData).then(function (response) {
-        console.log(response);
         _this.recipe.title = '';
         _this.recipe.description = '';
         _this.recipe.ingredients = '';
@@ -2117,10 +2109,7 @@ __webpack_require__.r(__webpack_exports__);
       this.$store.dispatch('logout');
     }
   },
-  created: function created() {
-    console.log('halo');
-    console.log(this.$store.getters.userData);
-  }
+  created: function created() {}
 });
 
 /***/ }),
@@ -2163,9 +2152,6 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   created: function created() {
-    console.log(this.$store.getters.isLoggedIn);
-    console.log(this.$store.state.isLoggedIn);
-    console.log(this.$store);
     this.getRecipes();
   },
   methods: {
@@ -2173,10 +2159,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       axios.get('/api/recipes').then(function (response) {
-        console.log(response);
-        _this.recipes = response.data.data; // this.$store.commit('isLoggedIn', true);
-        // this.$store.commit('userData', response.data);
-        // this.$router.push('settings');
+        _this.recipes = response.data.data;
       })["catch"](function (error) {
         console.log(error);
       });
@@ -2212,16 +2195,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  created: function created() {
-    console.log(this.$store.getters.isLoggedIn);
-    console.log(this.$store.state.isLoggedIn);
-    console.log(this.$store);
-  },
-  mounted: function mounted() {
-    console.log(this.$store.getters.isLoggedIn);
-    console.log(this.$store.state.isLoggedIn);
-    console.log(this.$store);
-  }
+  created: function created() {},
+  mounted: function mounted() {}
 });
 
 /***/ }),
@@ -2283,10 +2258,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2299,13 +2270,10 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       this.$store.dispatch('authenticate').then(function (response) {
-        console.log(response);
         axios.post('/login', {
           email: _this.email,
           password: _this.password
         }).then(function (response) {
-          console.log(response);
-
           _this.$store.commit('isLoggedIn', true);
 
           _this.$store.commit('userData', response.data);
@@ -2414,15 +2382,12 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       this.$store.dispatch('authenticate').then(function (response) {
-        console.log(response);
         axios.post('/register', {
           name: _this.name,
           email: _this.email,
           password: _this.password,
           password_confirmation: _this.confirmPassword
         }).then(function (response) {
-          console.log(response);
-
           _this.$store.commit('isLoggedIn', true);
 
           _this.$store.commit('userData', response.data);
@@ -2526,7 +2491,6 @@ __webpack_require__.r(__webpack_exports__);
       var _this3 = this;
 
       axios.get('/api/recipes/' + this.$route.params.id).then(function (response) {
-        console.log(response);
         _this3.recipe = response.data;
       })["catch"](function (error) {
         console.log(error);
@@ -26856,7 +26820,7 @@ var staticRenderFns = [
           { staticClass: "btn btn-primary", attrs: { type: "submit" } },
           [
             _vm._v(
-              "\n                                        Login\n                                    "
+              "\n                                    Login\n                                "
             )
           ]
         )
@@ -48631,16 +48595,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            console.log('before');
-
             if (to.matched.some(function (record) {
               return record.meta.requiresAuth;
             })) {
               // this route requires auth, check if logged in
               // if not, redirect to home page.
-              console.log('before');
-              console.log(_store__WEBPACK_IMPORTED_MODULE_1__["default"].getters.isLoggedIn);
-
               if (!_store__WEBPACK_IMPORTED_MODULE_1__["default"].getters.isLoggedIn) {
                 next({
                   path: '/'
@@ -48652,7 +48611,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               next(); // make sure to always call next()!
             }
 
-          case 2:
+          case 1:
           case "end":
             return _context.stop();
         }
@@ -48796,84 +48755,15 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
   },
   mutations: {
     isLoggedIn: function isLoggedIn(state, status) {
-      state.isLoggedIn = status; // store.commit('incrementBy', 8);
+      state.isLoggedIn = status;
     },
     userData: function userData(state, _userData) {
       state.user = _userData;
-    } // incrementBy (state, payload) {
-    //     state.count += payload.amount
-    //     store.commit('incrementBy', { amount: 29 });
-    // }
-    // methods: {
-    //     increment () {
-    //         this.$store.commit('increment')
-    //     }
-    // }
-    // import { mapState, mapMutations } from 'vuex';
-    // computed: mapState([
-    //     'count'
-    // ]),
-    // methods: mapMutations([
-    //     'increment',
-    //     'incrementBy'
-    // ])
-    // doneTodos: state => {
-    //     return state.todos.filter(todo => todo.done);
-    // },
-    // doneTodosCount: (state, getters) => {
-    //     return getters.doneTodos.length
-    // },
-    // getTodoById: (state) => (id) => {
-    //     return state.todos.find(todo => todo.id === id)
-    // }
-    // computed: {
-    //     doneTodosCount () {
-    //         return this.$store.getters.doneTodo
-    //     }
-    // }
-    // console.log(store.getters.getTodoById(48))
-    // actions: {
-    //     increment (context) {
-    //         context.commit('increment')
-    //     }
-    // }
-    // methods: {
-    //     increment () {
-    //         this.$store.dispatch('incrementAsync');
-    //             this.$store.dispatch('incrementAsync', payload);
-    //     },
-    //     decrement () {
-    //         this.$store.commit('decrement');
-    //     },
-    // }
-    // incrementAsync ({ commit }) {
-    //     setTimeout(() => {
-    //         commit('increment')
-    //     }, 1000)
-    // }
-    // actionA ({ commit }) {
-    //     return new Promise((resolve, reject) => {
-    //         setTimeout(() => {
-    //             commit('someMutation')
-    //             resolve()
-    //         }, 1000)
-    //     })
-    // }
-    // testAction () {
-    //     this.$store.dispatch('actionA').then(() => {
-    //
-    //     })
-    // }
-    // async actionD ({ dispatch, commit} ) {
-    //     await dispatch('actionC')
-    //     commit('gotOtherData', await getOtherData())
-    // }
-
+    }
   },
   actions: {
     logout: function logout(context) {
       axios.post('/logout').then(function (response) {
-        console.log(response);
         context.commit('isLoggedIn', false);
         context.commit('userData', {});
 
@@ -48889,7 +48779,6 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     }
   },
   modules: {},
-  // plugins: [createPersistedState()],
   plugins: [Object(vuex_persistedstate__WEBPACK_IMPORTED_MODULE_3__["default"])({
     storage: {
       getItem: function getItem(key) {
@@ -48902,14 +48791,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
         return ls.remove(key);
       }
     }
-  })] // plugins: [createPersistedState({
-  //     paths: ['newCount']
-  // })]
-  // plugins: [createPersistedState({
-  //     storage: window.sessionStorage,
-  // })],
-  // Use sessionStorage.clear(); when user logs out manually.
-
+  })]
 }));
 
 /***/ }),

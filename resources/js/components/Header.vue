@@ -60,8 +60,6 @@
             }
         },
         created() {
-            console.log('halo');
-            console.log(this.$store.getters.userData);
         }
     }
 </script>

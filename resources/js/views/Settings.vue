@@ -17,14 +17,10 @@
 <script>
     export default {
         created() {
-            console.log(this.$store.getters.isLoggedIn);
-            console.log(this.$store.state.isLoggedIn);
-            console.log(this.$store);
+
         },
         mounted() {
-            console.log(this.$store.getters.isLoggedIn);
-            console.log(this.$store.state.isLoggedIn);
-            console.log(this.$store);
+
         }
     }
 </script>

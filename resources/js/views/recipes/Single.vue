@@ -75,7 +75,6 @@
             getRecipe() {
                 axios.get('/api/recipes/' + this.$route.params.id)
                     .then(response => {
-                        console.log(response);
                         this.recipe = response.data;
                     })
                     .catch(error => {

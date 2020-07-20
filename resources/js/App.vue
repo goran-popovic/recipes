@@ -9,10 +9,6 @@
     export default {
         name: "app",
         created: function () {
-            console.log(this.$store.getters.isLoggedIn);
-            console.log(this.$store.state.isLoggedIn);
-            console.log(this.$store);
-
             axios.interceptors.response.use((response) => {
                 return response;
             }, (error) => {

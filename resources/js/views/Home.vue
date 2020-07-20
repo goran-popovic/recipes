@@ -28,20 +28,13 @@
             }
         },
         created: function () {
-            console.log(this.$store.getters.isLoggedIn);
-            console.log(this.$store.state.isLoggedIn);
-            console.log(this.$store);
             this.getRecipes();
         },
         methods: {
             getRecipes() {
                 axios.get('/api/recipes')
                     .then(response => {
-                        console.log(response);
                         this.recipes = response.data.data;
-                        // this.$store.commit('isLoggedIn', true);
-                        // this.$store.commit('userData', response.data);
-                        // this.$router.push('settings');
                     })
                     .catch(error => {
                         console.log(error);

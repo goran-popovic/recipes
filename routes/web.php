@@ -24,18 +24,6 @@ use Illuminate\Support\Facades\Route;
 	DELETE /recipes/1 (destroy)
 */
 
-//Route::resource('recipes', 'RecipeController')
-//    ->only([
-//        'index', 'create',
-//    ])
-//    ->except([
-//        'index', 'create',
-//    ])
-//    ->names([
-//        'index' => 'recipes.index',
-//        'create' => 'recipes.create',
-//    ]);
-
 Route::post('/login', 'Auth\LoginController@login');
 Route::post('/register', 'Auth\RegisterController@register');
 Route::post('/logout', 'Auth\LoginController@logout');

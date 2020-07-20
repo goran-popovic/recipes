@@ -49,13 +49,10 @@
             }
         },
         created: function () {
-            console.log(this.categories);
-            console.log(this.adminRoute);
         },
         methods: {
             handleFileUpload(){
                 this.recipe.images = this.$refs.images.files;
-                console.log(this.recipe.images)
             },
             addRecipe() {
                 let formData = new FormData();
@@ -70,7 +67,6 @@
 
                 axios.post('recipes/store', formData)
                     .then(response => {
-                        console.log(response);
                         this.recipe.title = '';
                         this.recipe.description = '';
                         this.recipe.ingredients = '';

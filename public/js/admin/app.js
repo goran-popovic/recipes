@@ -1957,14 +1957,10 @@ __webpack_require__.r(__webpack_exports__);
       }
     };
   },
-  created: function created() {
-    console.log(this.categories);
-    console.log(this.adminRoute);
-  },
+  created: function created() {},
   methods: {
     handleFileUpload: function handleFileUpload() {
       this.recipe.images = this.$refs.images.files;
-      console.log(this.recipe.images);
     },
     addRecipe: function addRecipe() {
       var _this = this;
@@ -1981,7 +1977,6 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       axios.post('recipes/store', formData).then(function (response) {
-        console.log(response);
         _this.recipe.title = '';
         _this.recipe.description = '';
         _this.recipe.ingredients = '';
