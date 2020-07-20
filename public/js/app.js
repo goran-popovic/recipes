@@ -2477,6 +2477,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2495,6 +2497,11 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     this.getRecipe();
+  },
+  computed: {
+    isLoggedIn: function isLoggedIn() {
+      return this.$store.getters.isLoggedIn;
+    }
   },
   methods: {
     favorite: function favorite() {
@@ -27191,41 +27198,45 @@ var render = function() {
                 _vm._v(_vm._s(_vm.recipe.category.name))
               ]),
               _vm._v(" "),
-              _vm.recipe.favorited
-                ? _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-primary",
-                      on: {
-                        click: function($event) {
-                          $event.preventDefault()
-                          return _vm.unfavorite($event)
-                        }
-                      }
-                    },
-                    [
-                      _vm._v(
-                        "\n                        Unfavorite\n                    "
-                      )
-                    ]
-                  )
-                : _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-primary",
-                      on: {
-                        click: function($event) {
-                          $event.preventDefault()
-                          return _vm.favorite($event)
-                        }
-                      }
-                    },
-                    [
-                      _vm._v(
-                        "\n                        Favorite\n                    "
-                      )
-                    ]
-                  )
+              _vm.isLoggedIn
+                ? [
+                    _vm.recipe.favorited
+                      ? _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-primary",
+                            on: {
+                              click: function($event) {
+                                $event.preventDefault()
+                                return _vm.unfavorite($event)
+                              }
+                            }
+                          },
+                          [
+                            _vm._v(
+                              "\n                            Unfavorite\n                        "
+                            )
+                          ]
+                        )
+                      : _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-primary",
+                            on: {
+                              click: function($event) {
+                                $event.preventDefault()
+                                return _vm.favorite($event)
+                              }
+                            }
+                          },
+                          [
+                            _vm._v(
+                              "\n                            Favorite\n                        "
+                            )
+                          ]
+                        )
+                  ]
+                : _vm._e()
             ],
             2
           )

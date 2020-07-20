@@ -13,12 +13,14 @@
                         <div v-html="recipe.ingredients"></div>
                         <p class="card-text">{{ recipe.created_at | moment("D.M.YYYY") }}</p>
                         <p class="card-text">{{ recipe.category.name }}</p>
-                        <button class="btn btn-primary" v-if="recipe.favorited" @click.prevent="unfavorite">
-                            Unfavorite
-                        </button>
-                        <button class="btn btn-primary" v-else @click.prevent="favorite">
-                            Favorite
-                        </button>
+                        <template v-if="isLoggedIn">
+                            <button class="btn btn-primary" v-if="recipe.favorited" @click.prevent="unfavorite">
+                                Unfavorite
+                            </button>
+                            <button class="btn btn-primary" v-else @click.prevent="favorite">
+                                Favorite
+                            </button>
+                        </template>
                     </div>
                 </div>
             </div>
@@ -45,6 +47,11 @@
         },
         created: function () {
             this.getRecipe();
+        },
+        computed: {
+            isLoggedIn () {
+                return this.$store.getters.isLoggedIn;
+            }
         },
         methods: {
             favorite() {
