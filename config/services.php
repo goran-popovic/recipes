@@ -30,4 +30,7 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    '2checkout' => [
+        'secret' => env('2CHECKOUT_SECRET'),
+    ],
 ];
