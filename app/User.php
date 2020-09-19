@@ -45,4 +45,12 @@ class User extends \TCG\Voyager\Models\User
         return $this->belongsToMany(Recipe::class, 'favorites', 'user_id', 'recipe_id')
             ->withTimeStamps();
     }
+
+    /**
+     * Get the subscription associated with the user.
+     */
+    public function subscription()
+    {
+        return $this->hasOne('App\Subscription');
+    }
 }

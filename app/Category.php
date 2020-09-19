@@ -21,7 +21,7 @@ class Category extends Model
     ];
 
     /**
-     * Get the ads that belong to a specific sex.
+     * Get the recipes that belong to a specific category.
      */
     public function recipes()
     {

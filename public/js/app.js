@@ -26644,7 +26644,16 @@ var staticRenderFns = [
             _c("div", { staticClass: "card-header" }, [_vm._v("Settings")]),
             _vm._v(" "),
             _c("div", { staticClass: "card-body" }, [
-              _vm._v("\n                    Settings\n                ")
+              _c(
+                "a",
+                {
+                  attrs: {
+                    href:
+                      "https://secure.2checkout.com/order/checkout.php?PRODS=31783802&QTY=1&CART=1&CARD=2&SHORT_FORM=1&CURRENCY=USD&LANG=en&LANGUAGES=en&ORDERSTYLE=nLWsn5S5iLo=&PAY_TYPE=CCVISAMC"
+                  }
+                },
+                [_vm._v("Subscribe")]
+              )
             ])
           ])
         ])

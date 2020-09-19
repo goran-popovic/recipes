@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Order;
+use App\Subscription;
+use App\User;
 use Illuminate\Http\Request;
 use Log;
 
@@ -47,6 +50,20 @@ class HooksController extends Controller
             /* Begin automated procedures (START YOUR CODE)*/
             Log::info('GOOD IPN');
             Log::info('GOOD IPN', ['params' => $params]);
+            if(isset($params['CUSTOMEREMAIL'])) {
+                $user = User::where('email', $params['CUSTOMEREMAIL'])->firstOrFail();
+                $subscription = $user->subscription;
+
+                if($params['ORDERSTATUS'] === 'COMPLETE') {
+                    Order::create([
+                        'subscription_id' => $subscription->id,
+                        'status' => $params['ORDERSTATUS'],
+                        'reference' => $params['REFNO'],
+                        'order_number' => $params['ORDERNO'],
+                        'sale_date' => $params['SALEDATE'],
+                    ]);
+                }
+            }
         } else {
             /* warning email */
 //            mail("geoligard@gmail.com","BAD IPN Signature", $body,"");
@@ -83,6 +100,21 @@ class HooksController extends Controller
             /* put your custom "SUCCESS" code below */
             Log::info('GOOD LCN');
             Log::info('GOOD LCN', ['params' => $params]);
+            if(isset($params['EMAIL'])) {
+                $user = User::where('email', $params['EMAIL'])->firstOrFail();
+
+                if($params['STATUS'] === 'ACTIVE') {
+                    Subscription::create([
+                        'user_id' => $user->id,
+                        'status' => $params['STATUS'],
+                        'reference' => $params['LICENSE_CODE'],
+                        'recurring' => $params['RECURRING'],
+                        'customer_reference' => $params['AVANGATE_CUSTOMER_REFERENCE'],
+                        'start_date' => $params['START_DATE'],
+                        'expiration_date' => $params['EXPIRATION_DATE'],
+                    ]);
+                }
+            }
         } else {
             /* put your custom "ERROR" code below, for example: */
 //            mail("your_address@example.com", "BAD LCN", print_r($_POST, TRUE),"");
