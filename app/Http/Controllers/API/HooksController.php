@@ -103,17 +103,20 @@ class HooksController extends Controller
             if(isset($params['EMAIL'])) {
                 $user = User::where('email', $params['EMAIL'])->firstOrFail();
 
-                if($params['STATUS'] === 'ACTIVE') {
-                    Subscription::create([
-                        'user_id' => $user->id,
-                        'status' => $params['STATUS'],
-                        'reference' => $params['LICENSE_CODE'],
-                        'recurring' => $params['RECURRING'],
-                        'customer_reference' => $params['AVANGATE_CUSTOMER_REFERENCE'],
-                        'start_date' => $params['START_DATE'],
-                        'expiration_date' => $params['EXPIRATION_DATE'],
-                    ]);
-                }
+                $subscriptionData = [
+                    'user_id' => $user->id,
+                    'status' => $params['STATUS'],
+                    'reference' => $params['LICENSE_CODE'],
+                    'recurring' => $params['RECURRING'],
+                    'customer_reference' => $params['AVANGATE_CUSTOMER_REFERENCE'],
+                    'start_date' => $params['START_DATE'],
+                    'expiration_date' => $params['EXPIRATION_DATE'],
+                ];
+
+                Subscription::updateOrCreate(
+                    ['user_id' => $user->id],
+                    $subscriptionData
+                );
             }
         } else {
             /* put your custom "ERROR" code below, for example: */
