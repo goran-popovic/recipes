@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Order;
@@ -11,66 +11,6 @@ use Log;
 
 class HooksController extends Controller
 {
-    public function instantPaymentNotifications(Request $request)
-    {
-        /* Instant Payment Notification */
-        $params = $request->all();
-        $pass = $this->get2CheckoutSecret();    /* pass to compute HASH */
-        $result = '';                 /* string for compute HASH for received data */
-        $signature = $params['HASH'];    /* HASH received */
-        /* read info received */
-        ob_start();
-
-        foreach ($params as $key => $val) {
-            $$key = $val;
-            /* get values */
-            if ($key != "HASH") {
-                if (is_array($val)) {
-                    $result .= $this->arrayExpand($val);
-                } else {
-                    $size = strlen(StripSlashes($val)); /*StripSlashes function to be used only for PHP versions <= PHP 5.3.0, only if the magic_quotes_gpc function is enabled */
-                    $result .= $size . StripSlashes($val);  /*StripSlashes function to be used only for PHP versions <= PHP 5.3.0, only if the magic_quotes_gpc function is enabled */
-                }
-            }
-        }
-
-        $body = ob_get_contents();
-        ob_end_flush();
-        $dateReturn = date('YmdHis');
-        $return = strlen($params['IPN_PID'][0]) . $params['IPN_PID'][0] . strlen($params['IPN_PNAME'][0]) . $params['IPN_PNAME'][0];
-        $return .= strlen($params['IPN_DATE']) . $params['IPN_DATE'] . strlen($dateReturn) . $dateReturn;
-
-        $hash = $this->hmac($pass, $result); /* HASH for data received */
-        $body .= $result . '\r\n\r\nHash: ' . $hash . '\r\n\r\nSignature: ' . $signature . '\r\n\r\nReturnSTR: ' . $return;
-
-        if ($hash == $signature) {
-            /* ePayment response */
-            $resultHash = $this->hmac($pass, $return);
-            echo '<EPAYMENT>' . $dateReturn . '|' . $resultHash . '</EPAYMENT>';
-            /* Begin automated procedures (START YOUR CODE)*/
-            Log::info('GOOD IPN');
-            Log::info('GOOD IPN', ['params' => $params]);
-            if(isset($params['CUSTOMEREMAIL'])) {
-                $user = User::where('email', $params['CUSTOMEREMAIL'])->firstOrFail();
-                $subscription = $user->subscription;
-
-                if($params['ORDERSTATUS'] === 'COMPLETE') {
-                    Order::create([
-                        'subscription_id' => $subscription->id,
-                        'status' => $params['ORDERSTATUS'],
-                        'reference' => $params['REFNO'],
-                        'order_number' => $params['ORDERNO'],
-                        'sale_date' => $params['SALEDATE'],
-                    ]);
-                }
-            }
-        } else {
-            /* warning email */
-//            mail("geoligard@gmail.com","BAD IPN Signature", $body,"");
-            Log::info('BAD IPN');
-        }
-    }
-
     public function licenseChangeNotifications(Request $request)
     {
         /* License Change Notification */
@@ -98,8 +38,6 @@ class HooksController extends Controller
             echo '<EPAYMENT>' . $returnedDate . '|' . $returnedHash . '</EPAYMENT>';
 
             /* put your custom "SUCCESS" code below */
-            Log::info('GOOD LCN');
-            Log::info('GOOD LCN', ['params' => $params]);
             if(isset($params['EMAIL'])) {
                 $user = User::where('email', $params['EMAIL'])->firstOrFail();
 
@@ -119,9 +57,45 @@ class HooksController extends Controller
                 );
             }
         } else {
-            /* put your custom "ERROR" code below, for example: */
-//            mail("your_address@example.com", "BAD LCN", print_r($_POST, TRUE),"");
-            Log::info('BAD LCN');
+            Log::info('LCN ERROR');
+        }
+    }
+
+    public function instantPaymentNotifications(Request $request)
+    {
+        /* Instant Payment Notification */
+        $params = $request->all();
+        $pass = $this->get2CheckoutSecret();    /* pass to compute HASH */
+        $result = '';                 /* string for compute HASH for received data */
+        $signature = $params['HASH'];    /* HASH received */
+
+        foreach ($params as $key => $val) {
+            $$key = $val;
+            /* get values */
+            if ($key != "HASH") {
+                if (is_array($val)) {
+                    $result .= $this->arrayExpand($val);
+                } else {
+                    $size = strlen(StripSlashes($val)); /*StripSlashes function to be used only for PHP versions <= PHP 5.3.0, only if the magic_quotes_gpc function is enabled */
+                    $result .= $size . StripSlashes($val);  /*StripSlashes function to be used only for PHP versions <= PHP 5.3.0, only if the magic_quotes_gpc function is enabled */
+                }
+            }
+        }
+
+        $dateReturn = date('YmdHis');
+        $return = strlen($params['IPN_PID'][0]) . $params['IPN_PID'][0] . strlen($params['IPN_PNAME'][0]) . $params['IPN_PNAME'][0];
+        $return .= strlen($params['IPN_DATE']) . $params['IPN_DATE'] . strlen($dateReturn) . $dateReturn;
+
+        $hash = $this->hmac($pass, $result); /* HASH for data received */
+
+        if ($hash == $signature) {
+            /* ePayment response */
+            $resultHash = $this->hmac($pass, $return);
+            echo '<EPAYMENT>' . $dateReturn . '|' . $resultHash . '</EPAYMENT>';
+            /* Begin automated procedures (START YOUR CODE)*/
+            Log::info('IPN SUCCESS', ['params' => $params]);
+        } else {
+            Log::info('IPN ERROR');
         }
     }
 

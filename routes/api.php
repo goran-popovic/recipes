@@ -26,6 +26,3 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
 
 Route::get('/recipes', 'Api\RecipeController@index');
 Route::get('/recipes/{id}', 'Api\RecipeController@show');
-
-Route::post('/hooks/ipn', 'Api\HooksController@instantPaymentNotifications');
-Route::post('/hooks/lcn', 'Api\HooksController@licenseChangeNotifications');

@@ -27,6 +27,7 @@ use Illuminate\Support\Facades\Route;
 Route::post('/login', 'Auth\LoginController@login');
 Route::post('/register', 'Auth\RegisterController@register');
 Route::post('/logout', 'Auth\LoginController@logout');
+Route::post('/hooks/lcn', 'HooksController@licenseChangeNotifications');
 
 Route::group(['prefix' => config('app.admin_route')], function () {
     Route::group(['middleware' => 'admin_auth'], function() {

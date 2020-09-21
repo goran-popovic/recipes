@@ -21,15 +21,7 @@ class Subscription extends Model
      * @var array
      */
     protected $casts = [
-        'expiration_date' => 'datetime',
         'start_date' => 'datetime',
+        'expiration_date' => 'datetime',
     ];
-
-    /**
-     * Get the order associated with the subscription.
-     */
-    public function order()
-    {
-        return $this->hasOne('App\Order');
-    }
 }
